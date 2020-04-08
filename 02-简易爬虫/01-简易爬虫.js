@@ -3,9 +3,13 @@ const fs =require("fs")
 
 const url ="https://www.baidu.com/";
 http.get(url, (res) => {
-  console.log(res)
+  //安全判断
+  const { statusCode } = res;  //状态码
+  const contentType = res.headers['content-type']; //文档类型
 
-  res.setEncoding('utf8');
+  console.log(statusCode,contentType)
+
+  //数据的处理
   let rawData = '';
   res.on('data', (chunk) => { 
     console.log("数据传输中")
