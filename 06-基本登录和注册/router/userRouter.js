@@ -6,12 +6,25 @@ const email = require("../utils/mail")
 
 let codes = {} //声明全局变量保存验证码到内存中
 
-//注册接口
+/**
+ * @api {post} /user/register 用户注册接口
+ * @apiName register
+ * @apiGroup user
+ *
+ * @apiParam {String} username 唯一的用户名.
+ * @apiParam {String} password 密码.
+ * @apiParam {String} mail 关联邮箱.
+ * @apiParam {String} code 邮箱验证码.
+ *
+ * @apiSuccess {Number} code 返回状态码.
+ * @apiSuccess {String} msg  返回消息.
+ */
 router.post("/register", (req, res) => {
   //数据获取
   let {
     username,
     password,
+    mail,
     code
   } = req.body;
   console.log(username, password, code)
@@ -21,7 +34,7 @@ router.post("/register", (req, res) => {
       msg: "请输入用户名、密码和验证码"
     })
   } else {
-    if (codes.code != code) {
+    if (codes[mail].randomCode!= code) {
       return res.send({
         code: -1,
         msg: "验证码错误"
@@ -60,7 +73,17 @@ router.post("/register", (req, res) => {
   //返回数据
 })
 
-//登录接口
+/**
+ * @api {post} /user/login 用户登录接口
+ * @apiName login
+ * @apiGroup user
+ *
+ * @apiParam {String} username 唯一的用户名.
+ * @apiParam {String} password 密码.
+ *
+ * @apiSuccess {Number} code 返回状态码.
+ * @apiSuccess {String} msg  返回消息.
+ */
 router.post("/login", (req, res) => {
   let {
     username,
@@ -100,6 +123,16 @@ router.post("/login", (req, res) => {
   }
 })
 
+/**
+ * @api {post} /user/getMailCode 用户获取邮箱验证码接口
+ * @apiName getMailCode
+ * @apiGroup user
+ *
+ * @apiParam {String} mail 用户邮箱.
+ *
+ * @apiSuccess {Number} code 返回状态码.
+ * @apiSuccess {String} msg  返回消息.
+ */
 router.post("/getMailCode", (req, res) => {
   let {
     mail
