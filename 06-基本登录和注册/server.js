@@ -1,5 +1,6 @@
 const express = require("express")
 const db = require("./connect")
+const path = require("path")
 const userRouter = require("./router/userRouter")
 const articleRouter = require("./router/articleRouter")
 const fileRouter = require("./router/fileRouter")
@@ -12,6 +13,7 @@ app.use(bodyParser.urlencoded({
 }))
 // parse application/json
 app.use(bodyParser.json())
+app.use("/public", express.static(path.join(__dirname, "./uploads")))
 
 //设置允许跨域访问该服务.
 app.all('*', function (req, res, next) {
