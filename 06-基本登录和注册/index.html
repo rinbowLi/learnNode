@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前端上传图片示例</title>
+</head>
+<body>
+    <form id="form" enctype="multipart/form-data">
+        <label for="file">上传图片</label><input id="file" type="file"/>
+        <img id="img" src="" alt="123">
+        <input type="button" id="button" value="上传图片"/>
+    </form>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script>
+     $("#button").on("click",function(){
+         $.ajax({
+             url:"http://localhost:3000/file/upload",
+             type:"post",
+             cache:false,
+             data:new FormData($("#form")[0]),
+             processData:false,
+             contentType:false,
+             success:function(data){
+                 console.log(data)
+             }
+         })
+     })
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+    <h1>gp6 交流区</h1>
+    <div id="content" name="name" style="overflow-y: scroll;width: 400px;height: 300px;border: 1px solid #ccc;">
+        <br />
+    </div>
+    <input type="text" id="msg" style="width: 200px;" />
+    <button id="submit">提交</button>
+    <script src="./socket.io-client.js" charset="utf-8"></script>
+    <script>
+        let socket = io.connect("http://localhost:8081");
+        socket.on("list",(msg)=>{
+            console.log("从后来传输过来的消息"+msg)
+        })
+        const content = document.getElementById("content")
+        document.getElementById("submit")
+            .addEventListener("click", () => {
+                let msg = document.getElementById("msg")
+                let msg2 = msg.value;
+                socket.emit("receive", msg2)
+                msg.value = ""
+                content.innerHTML += msg2 + '<br/>';
+            }, false)
+    </script>
+</body>
+
+</html>
